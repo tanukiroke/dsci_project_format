@@ -1,0 +1,44 @@
+stages:
+  - test
+  - feature extractor
+  - model build
+  - evaluate
+  - deploy
+
+test:
+  stage: test
+  script: echo "Running tests"
+
+feature extractor:
+  stage: feature extractor
+  script: echo "Extracting Features"
+
+model build:
+  stage: model build
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+  - master
+
+evaluate:
+  stage: evaluate
+  script:
+    - echo "Calculating Scores"
+  environment:
+    name: staging
+    url: https://staging.example.com
+  only:
+  - master
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying the model "
+  environment:
+    name: production
+    url: https://production.example.com
+  only:
+  - master
